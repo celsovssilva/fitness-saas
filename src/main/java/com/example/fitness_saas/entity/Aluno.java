@@ -7,20 +7,23 @@ import org.springframework.security.core.userdetails.User;
 @Data
 public class Aluno {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Double pesoInicial;
+    private Double altura;
+
     @OneToOne
-    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "trainer_id")
-    private User trainer;
 
     @ManyToOne
-    @JoinColumn(name = "nutritionist_id")
-    private User nutritionist;
+    @JoinColumn(name = "personal_id")
+    private Personal personal;
 
-    private String objective;
+    @ManyToOne
+    @JoinColumn(name = "nutri_id")
+    private Nutricionista nutricionista;
+
 }
