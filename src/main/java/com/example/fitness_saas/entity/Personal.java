@@ -3,7 +3,7 @@ package com.example.fitness_saas.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+
 
 import java.util.List;
 
@@ -16,6 +16,9 @@ public class Personal {
 
     private String cref;
     private String especialidade;
+
+    @Column(nullable = false)
+    private boolean ativo = true;
 
     @OneToOne
     @JoinColumn(name = "user_id")

@@ -21,6 +21,9 @@ public class Nutricionista {
 
     private String apresentacao;
 
+    @Column(nullable = false)
+    private boolean ativo = true;
+
 
     @OneToOne
     @JoinColumn(name = "user_id")

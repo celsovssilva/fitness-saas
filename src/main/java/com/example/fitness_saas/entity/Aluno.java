@@ -2,8 +2,8 @@ package com.example.fitness_saas.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.security.core.userdetails.User;
-
+import com.example.fitness_saas.entity.User;
+@Entity
 @Data
 public class Aluno {
     @Id
