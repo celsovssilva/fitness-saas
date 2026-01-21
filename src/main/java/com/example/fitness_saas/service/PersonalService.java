@@ -11,6 +11,6 @@ import java.util.List;
 public interface PersonalService  {
     public Personal cadastrarPersonal(Personal personal);
     public Personal atualizarPersonal(Personal personal);
-    public void deletarPersonal(int id);
+    public void deletarPersonal(Long id);
     public List<Personal> buscarPersonal();
 }

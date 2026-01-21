@@ -17,6 +17,11 @@ public class Evolucao {
     private Double imc;
     private String fotoUrl;
     private String observacoes;
+    @Column(columnDefinition = "TEXT")
+    private String parecerProfissional;
+
+
+    private  boolean StatusEvolucao ;
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")
