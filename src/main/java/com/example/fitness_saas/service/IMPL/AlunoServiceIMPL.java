@@ -3,6 +3,7 @@ package com.example.fitness_saas.service.IMPL;
 import com.example.fitness_saas.entity.Aluno;
 import com.example.fitness_saas.entity.User;
 import com.example.fitness_saas.repository.AlunoRepository;
+import com.example.fitness_saas.repository.UserRepository;
 import com.example.fitness_saas.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ public class AlunoServiceIMPL implements AlunoService {
 
     @Autowired
     private AlunoRepository alunoRepository;
-
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public List<Aluno> buscarAlunos() {
 
@@ -23,6 +25,8 @@ public class AlunoServiceIMPL implements AlunoService {
 
     @Override
     public Aluno cadastrarAluno(Aluno aluno) {
+
+        userRepository.save(aluno.getUser());
         return alunoRepository.save(aluno);
     }
 

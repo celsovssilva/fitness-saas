@@ -20,7 +20,7 @@ public class Personal {
     @Column(nullable = false)
     private boolean ativo = true;
 
-    @OneToOne
+    @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 

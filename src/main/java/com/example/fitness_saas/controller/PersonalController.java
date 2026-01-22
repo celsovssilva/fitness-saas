@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("api/personal")
+@RestController
+@RequestMapping("api/personal")
 public class PersonalController {
     @Autowired
     PersonalServiceIMPL personalServiceIMPL;

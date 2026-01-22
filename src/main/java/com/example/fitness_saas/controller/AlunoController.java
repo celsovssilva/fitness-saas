@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("api/personal")
+@RestController
+@RequestMapping("api/aluno")
 public class AlunoController {
 
     @Autowired
@@ -15,6 +16,7 @@ public class AlunoController {
 
     @PostMapping("/cadastrar")
     public Aluno cadastrarAluno(@RequestBody Aluno aluno){
+        user
         return cadastrarAluno(aluno);
 
     }

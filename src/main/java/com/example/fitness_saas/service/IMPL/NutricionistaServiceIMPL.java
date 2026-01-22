@@ -4,16 +4,22 @@ import com.example.fitness_saas.entity.Aluno;
 import com.example.fitness_saas.entity.Nutricionista;
 import com.example.fitness_saas.entity.User;
 import com.example.fitness_saas.repository.NutricionistaRepository;
+import com.example.fitness_saas.repository.UserRepository;
 import com.example.fitness_saas.service.NutricionistaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class NutricionistaServiceIMPL implements NutricionistaService {
     @Autowired
     private NutricionistaRepository nutricionistaRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public Nutricionista cadastrarNutricionista(Nutricionista nutricionista) {
+        userRepository.save(nutricionista.getUser());
         return nutricionistaRepository.save(nutricionista);
     }
 
