@@ -42,4 +42,9 @@ public class TreinoServiceIMPL implements TreinoService {
         }
         return treinoRepository.save(treino);
     }
+
+    @Override
+    public void deletarTreino(Long id) {
+        treinoRepository.deleteById(id);
+    }
 }

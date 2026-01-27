@@ -14,4 +14,6 @@ public interface TreinoService {
     public Treino cadastrarTreino(Treino treino);
 
     public Treino atualizarTreino(Long id,Treino treino);
+
+    public void deletarTreino(Long id);
 }

@@ -1,6 +1,5 @@
 package com.example.fitness_saas.repository;
 
-import com.example.fitness_saas.entity.Evolucao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

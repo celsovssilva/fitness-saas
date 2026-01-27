@@ -22,8 +22,6 @@ public class Aluno {
     @JoinColumn(name = "personal_id")
     private Personal personal;
 
-    @ManyToOne
-    @JoinColumn(name = "nutri_id")
-    private Nutricionista nutricionista;
+
 
 }

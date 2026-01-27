@@ -26,7 +26,7 @@ public class TreinoController {
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/atualizar/{id}")
     public ResponseEntity<Treino> atualizar(@PathVariable Long id, @RequestBody Treino treino) {
 
         Treino treinoAtualizado = treinoService.atualizarTreino(id, treino);
