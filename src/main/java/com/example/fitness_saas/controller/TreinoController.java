@@ -3,10 +3,8 @@ package com.example.fitness_saas.controller;
 import com.example.fitness_saas.entity.Treino;
 import com.example.fitness_saas.service.TreinoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,13 @@ public class TreinoController {
     @GetMapping("/buscar")
     public List<Treino> buscar(Long  idAluno){
         return treinoService.buscarTreinoPorAluno(idAluno);
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Treino> atualizar(@PathVariable Long id, @RequestBody Treino treino) {
+
+        Treino treinoAtualizado = treinoService.atualizarTreino(id, treino);
+        return ResponseEntity.ok(treinoAtualizado);
     }
 }
