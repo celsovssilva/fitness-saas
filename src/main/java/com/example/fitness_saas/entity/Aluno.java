@@ -1,10 +1,15 @@
 package com.example.fitness_saas.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import com.example.fitness_saas.entity.User;
+
 @Entity
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,11 +2,15 @@ package com.example.fitness_saas.entity;
 
 import com.example.fitness_saas.Enum.UserRole;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "tb_users")
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

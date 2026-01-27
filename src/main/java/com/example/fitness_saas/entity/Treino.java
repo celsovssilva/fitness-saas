@@ -1,13 +1,17 @@
 package com.example.fitness_saas.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Treino {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
