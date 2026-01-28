@@ -35,7 +35,6 @@ public class AlunoServiceIMPL implements AlunoService {
         Aluno a = alunoRepository.findById(aluno.getId()).get();
         a.setAltura(aluno.getAltura());
         a.setPesoInicial(aluno.getPesoInicial());
-        a.setNutricionista(aluno.getNutricionista());
         a.setPersonal(aluno.getPersonal());
 
         if (a.getUser() != null) {
