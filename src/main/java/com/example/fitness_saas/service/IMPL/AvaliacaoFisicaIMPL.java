@@ -61,6 +61,29 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
     public void deletar(Long id) {
         avaliacaoFisicaRepository.deleteById(id);
     }
+
+    @Override
+    public Map<String,Double> compararEvolucao(Long alunoId) {
+        List<AvaliacaoFisica> avaliacoes = avaliacaoFisicaRepository.findTop2ByAlunoIdOrderByDataAvaliacaoDesc(alunoId);
+
+        if (avaliacoes.size() < 2) {
+            throw new RuntimeException("Dados insuficientes para comparar. São necessárias 2 avaliações.");
+        }
+
+        AvaliacaoFisica atual = avaliacoes.get(0);
+        AvaliacaoFisica antiga = avaliacoes.get(1);
+
+        Map<String, Double> evolucao = new HashMap<>();
+        evolucao.put("difPeso", atual.getPeso() - antiga.getPeso());
+        evolucao.put("difGordura", atual.getPercentualGordura() - antiga.getPercentualGordura());
+        evolucao.put("difMassaMuscular", atual.getMassaMuscular() - antiga.getMassaMuscular());
+        evolucao.put("difCintura", atual.getCintura() - antiga.getCintura());
+        evolucao.put("difTorax", atual.getTorax() - antiga.getTorax());
+        evolucao.put("difBracoDireito", atual.getBracoDireito() - antiga.getBracoDireito());
+        evolucao.put("difCoxaDireita", atual.getCoxaDireita() - antiga.getCoxaDireita());
+
+        return evolucao;
+    }
     private AvaliacaoFisicaResponse converterParaResponse(AvaliacaoFisica ent) {
         Double imc = ent.getPeso() / (ent.getAltura() * ent.getAltura());
         return new AvaliacaoFisicaResponse(

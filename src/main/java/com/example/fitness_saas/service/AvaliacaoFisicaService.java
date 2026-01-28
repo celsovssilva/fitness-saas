@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface AvaliacaoFisicaService {
@@ -16,7 +17,7 @@ public interface AvaliacaoFisicaService {
     List<AvaliacaoFisicaResponse> buscarHistoricoPorAluno(Long alunoId);
 
     AvaliacaoFisicaResponse buscarUltimaAvaliacao(Long alunoId);
-
+    Map<String, Double> compararEvolucao(Long alunoId);
     void deletar(Long id);
 
 
