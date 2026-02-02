@@ -102,6 +102,6 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
                 ent.getBracoEsquerdo(),
                 ent.getBracoDireito(),
                 ent.getCoxaEsquerda(),
-                ent.getQuadril());
+                ent.getCoxaDireita());
     }
 }

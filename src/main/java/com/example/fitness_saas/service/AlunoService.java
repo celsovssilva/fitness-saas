@@ -12,12 +12,10 @@ import java.util.Map;
 
 @Service
 public interface AlunoService {
-    public interface AvaliacaoFisicaService {
-        AvaliacaoFisicaResponse cadastrar(AvaliacaoFisicaDTO request);
-        List<AvaliacaoFisicaResponse> buscarHistorico(Long alunoId);
-        AvaliacaoFisicaResponse buscarUltima(Long alunoId);
-
-        Map<String, Double> compararEvolucao(Long alunoId);
-    }
+    public Aluno cadastrar(Aluno aluno);
+    public List<Aluno> listar();
+    public List<Aluno> buscarAlunos();
+    public Aluno atualizarAluno( Aluno aluno);
+    void deletarAluno(Long id);
 
 }

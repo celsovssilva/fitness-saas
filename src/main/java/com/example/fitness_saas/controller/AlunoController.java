@@ -21,7 +21,7 @@ public class AlunoController {
     @PostMapping("/cadastrar")
     public Aluno cadastrarAluno(@RequestBody Aluno aluno){
         userRepository.save(aluno.getUser());
-        return alunoService.cadastrarAluno(aluno);
+        return alunoService.cadastrar(aluno);
 
     }
 
