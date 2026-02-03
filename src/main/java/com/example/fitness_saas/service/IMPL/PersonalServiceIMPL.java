@@ -29,7 +29,7 @@ public class PersonalServiceIMPL  implements PersonalService {
     public Personal atualizarPersonal(Personal personal) {
         Personal p = personalRepository.findById(personal.getId()).get();
         p.setCref(personal.getCref());
-        p.setAtivo(personal.isAtivo());
+
         p.setEspecialidade(personal.getEspecialidade());
         p.setAlunos(personal.getAlunos());
 

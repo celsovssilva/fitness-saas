@@ -17,5 +17,6 @@ public interface AlunoService {
     public List<Aluno> buscarAlunos();
     public Aluno atualizarAluno( Aluno aluno);
     void deletarAluno(Long id);
+    public Aluno buscarAlunoPorId(Long id);
 
 }

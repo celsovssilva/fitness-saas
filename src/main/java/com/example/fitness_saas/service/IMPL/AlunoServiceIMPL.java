@@ -1,8 +1,10 @@
 package com.example.fitness_saas.service.IMPL;
 
 import com.example.fitness_saas.entity.Aluno;
+import com.example.fitness_saas.entity.Personal;
 import com.example.fitness_saas.entity.User;
 import com.example.fitness_saas.repository.AlunoRepository;
+import com.example.fitness_saas.repository.PersonalRepository;
 import com.example.fitness_saas.repository.UserRepository;
 import com.example.fitness_saas.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class AlunoServiceIMPL implements AlunoService{
     private AlunoRepository alunoRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PersonalRepository personalRepository;
 
     @Override
     public List<Aluno> buscarAlunos() {
@@ -27,7 +31,14 @@ public class AlunoServiceIMPL implements AlunoService{
     @Override
     public Aluno cadastrar(Aluno aluno) {
 
-        userRepository.save(aluno.getUser());
+        if (aluno.getPersonal() != null && aluno.getPersonal().getId() != null) {
+
+            Personal personalCompleto = personalRepository.findById(aluno.getPersonal().getId())
+                    .orElseThrow(() -> new RuntimeException("Personal não encontrado"));
+
+
+            aluno.setPersonal(personalCompleto);
+        }
         return alunoRepository.save(aluno);
     }
 
@@ -38,23 +49,25 @@ public class AlunoServiceIMPL implements AlunoService{
 
     @Override
     public Aluno atualizarAluno(Aluno aluno) {
-        Aluno a = alunoRepository.findById(aluno.getId()).get();
+
+        Aluno a = alunoRepository.findById(aluno.getId())
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + aluno.getId()));
+
         a.setAltura(aluno.getAltura());
         a.setPesoInicial(aluno.getPesoInicial());
         a.setPersonal(aluno.getPersonal());
 
-        if (a.getUser() != null) {
+
+        if (aluno.getUser() != null && a.getUser() != null) {
             User userExistente = a.getUser();
-            User userNovosDados = a.getUser();
+            User userNovosDados = aluno.getUser();
 
             userExistente.setName(userNovosDados.getName());
             userExistente.setEmail(userNovosDados.getEmail());
 
         }
 
-
-        return alunoRepository.save(aluno);
-
+        return alunoRepository.save(a);
     }
 
     @Override
@@ -62,5 +75,9 @@ public class AlunoServiceIMPL implements AlunoService{
     alunoRepository.deleteById(id);
 
 
+    }
+    @Override
+    public Aluno buscarAlunoPorId(Long id) {
+        return alunoRepository.findById(id).orElse(null);
     }
 }

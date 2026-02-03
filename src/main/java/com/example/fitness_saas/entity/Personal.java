@@ -21,8 +21,7 @@ public class Personal {
     private String cref;
     private String especialidade;
 
-    @Column(nullable = false)
-    private boolean ativo = true;
+
 
     @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "user_id")
