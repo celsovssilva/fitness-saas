@@ -5,28 +5,28 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-import java.util.List;
+    import java.util.List;
 
-@Entity
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Personal {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Entity
+    @Data
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class Personal {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    private String cref;
-    private String especialidade;
+        private String cref;
+        private String especialidade;
 
 
 
-    @OneToOne(cascade =  CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+        @OneToOne(cascade =  CascadeType.ALL)
+        @JoinColumn(name = "user_id")
+        private User user;
 
-    @OneToMany(mappedBy = "personal")
-    private List<Aluno> alunos;
-}
+        @OneToMany(mappedBy = "personal")
+        private List<Aluno> alunos;
+    }

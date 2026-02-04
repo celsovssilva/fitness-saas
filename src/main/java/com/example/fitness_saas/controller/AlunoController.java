@@ -52,7 +52,8 @@ public class AlunoController {
                 aluno.getPersonal() != null ? new PersonalDTO(
                         aluno.getPersonal().getId(),
                         aluno.getPersonal().getUser().getName(),
-                        aluno.getPersonal().getCref()
+                        aluno.getPersonal().getCref(),
+                        aluno.getPersonal().getEspecialidade()
                 ) : null
         );
 
