@@ -1,6 +1,7 @@
 package com.example.fitness_saas.controller;
 
 import com.example.fitness_saas.entity.Treino;
+import com.example.fitness_saas.response.TreinoResponse;
 import com.example.fitness_saas.service.TreinoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +17,21 @@ public class TreinoController {
     TreinoService treinoService;
 
     @PostMapping("/cadastrar")
-    public Treino cadastrar(Treino treino){
-        return treinoService.cadastrarTreino(treino);
+    public ResponseEntity<TreinoResponse> cadastrar(Treino treino){
+        Treino treino1= treinoService.cadastrarTreino(treino);
+        return ResponseEntity.ok(new TreinoResponse(treino1));
     }
 
-    @GetMapping("/buscar")
-    public List<Treino> buscar(Long  idAluno){
-        return treinoService.buscarTreinoPorAluno(idAluno);
-
+    @GetMapping("/buscar/{idAluno}")
+    public ResponseEntity<List<TreinoResponse>> buscar(Long  idAluno){
+        List<Treino> treinos = treinoService.buscarTreinoPorAluno(idAluno);
+        return ResponseEntity.ok(treinos.stream().map(TreinoResponse::new).toList());
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Treino> atualizar(@PathVariable Long id, @RequestBody Treino treino) {
+    public ResponseEntity<TreinoResponse> atualizar(@PathVariable Long id, @RequestBody Treino treino) {
 
         Treino treinoAtualizado = treinoService.atualizarTreino(id, treino);
-        return ResponseEntity.ok(treinoAtualizado);
+        return ResponseEntity.ok(new TreinoResponse(treinoAtualizado));
     }
 }
