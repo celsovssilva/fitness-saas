@@ -7,8 +7,9 @@ public record ItemTreinoResponse(
         String exercicioNome,
         int series,
         int repeticoes,
-        String descanso,
+        int descanso,
         String observacao
+
 ) {
     public ItemTreinoResponse(ItemTreino item) {
         this(

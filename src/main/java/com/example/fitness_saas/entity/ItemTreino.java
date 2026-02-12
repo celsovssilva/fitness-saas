@@ -21,8 +21,8 @@ public class ItemTreino {
     @JoinColumn(name = "treino_id")
     private Treino treino;
 
-    private int series;
-    private int repeticoes;
-    private String descanso;
+    private Integer series;
+    private Integer repeticoes;
+    private Integer descanso;
     private String observacao;
 }

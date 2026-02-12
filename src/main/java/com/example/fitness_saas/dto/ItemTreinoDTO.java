@@ -1,3 +1,5 @@
 package com.example.fitness_saas.dto;
 
-public record ItemTreinoDTO(Long exercicioId, int series, int repeticoes, String descanso, String observacao){}
+import com.example.fitness_saas.entity.Treino;
+
+public record ItemTreinoDTO(Integer exercicio, Integer series, Integer repeticoes, Integer descanso, String observacao){}
