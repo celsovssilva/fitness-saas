@@ -1,9 +1,12 @@
 package com.example.fitness_saas.controller;
 
+import com.example.fitness_saas.dto.ExercicioDTO;
 import com.example.fitness_saas.entity.Exercicio;
 import com.example.fitness_saas.service.ExercicioService;
 import com.example.fitness_saas.service.IMPL.ExercicioServiceIMPL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +19,10 @@ public class ExercicioController {
     ExercicioService exercicioService;
 
     @PostMapping("/cadastrar")
-    public Exercicio salvarExercicio(@RequestBody Exercicio exercicio){
-        return exercicioService.salvarExercicio(exercicio);
+    public ResponseEntity<Exercicio> salvarExercicio(@RequestBody ExercicioDTO exercicio) {
+
+        Exercicio entidadeSalva = exercicioService.salvarExercicio(exercicio);
+        return ResponseEntity.status(HttpStatus.CREATED).body(entidadeSalva);
     }
     @GetMapping("/buscar")
     public List<Exercicio> listarExercicios(){

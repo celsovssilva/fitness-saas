@@ -1,5 +1,6 @@
 package com.example.fitness_saas.service.IMPL;
 
+import com.example.fitness_saas.dto.ExercicioDTO;
 import com.example.fitness_saas.entity.Exercicio;
 import com.example.fitness_saas.repository.ExercicioRepository;
 import com.example.fitness_saas.service.ExercicioService;
@@ -15,7 +16,15 @@ public class ExercicioServiceIMPL implements ExercicioService {
     private ExercicioRepository exercicioRepository;
 
     @Override
-    public Exercicio salvarExercicio(Exercicio exercicio) {
+    public Exercicio salvarExercicio(ExercicioDTO exercicioDTO) {
+
+        Exercicio exercicio = new Exercicio();
+
+        exercicio.setNome(exercicioDTO.nome());
+        exercicio.setGrupoMuscular(exercicioDTO.grupoMuscular());
+        exercicio.setVideoDemonstrativo(exercicioDTO.videoDemonstrativo());
+
+
         return exercicioRepository.save(exercicio);
     }
 
