@@ -37,6 +37,9 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
         avaliacao.setMassaMuscular(request.massaMuscular());
         avaliacao.setCintura(request.cintura());
         avaliacao.setTorax(request.torax());
+        avaliacao.setQuadril(request.quadril());
+        avaliacao.setBracoEsquerdo(request.bracoEsquerdo());
+        avaliacao.setCoxaEsquerda(request.coxaEsquerda());
         avaliacao.setBracoDireito(request.bracoDireito());
         avaliacao.setCoxaDireita(request.coxaDireita());
 

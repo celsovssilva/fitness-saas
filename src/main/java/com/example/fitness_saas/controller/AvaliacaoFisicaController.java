@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/avalicaofisica")
+@RequestMapping("api/avaliacaofisica")
 public class AvaliacaoFisicaController {
     @Autowired
     private AvaliacaoFisicaService avaliacaoFisicaService;
