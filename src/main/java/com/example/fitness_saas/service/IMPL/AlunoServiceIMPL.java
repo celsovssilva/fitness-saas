@@ -64,6 +64,7 @@ public class AlunoServiceIMPL implements AlunoService{
 
             userExistente.setName(userNovosDados.getName());
             userExistente.setEmail(userNovosDados.getEmail());
+            userExistente.setDataNascimento(userNovosDados.getDataNascimento());
 
         }
 

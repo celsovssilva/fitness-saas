@@ -5,15 +5,20 @@ public record AvaliacaoFisicaDTO(
         Long personalId,
         Double peso,
         Double altura,
-        Double percentualGordura,
         Double massaMuscular,
 
-        Double torax,
-        Double cintura,
-        Double quadril,
-        Double bracoEsquerdo,
-        Double bracoDireito,
-        Double coxaEsquerda,
-        Double coxaDireita
+
+        Double torax, Double cintura, Double quadril,
+        Double bracoEsquerdo, Double bracoDireito,
+        Double coxaEsquerda, Double coxaDireita,
+
+
+        Double dobraSubescapular,
+        Double dobraTriceps,
+        Double dobraPeitoral,
+        Double dobraAxilarMedia,
+        Double dobraSupraIliaca,
+        Double dobraAbdominal,
+        Double dobraCoxa
 ) {
 }

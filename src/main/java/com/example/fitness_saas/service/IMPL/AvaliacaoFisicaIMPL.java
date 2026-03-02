@@ -28,20 +28,54 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
     public AvaliacaoFisicaResponse cadastrar(AvaliacaoFisicaDTO request) {
         AvaliacaoFisica avaliacao = new AvaliacaoFisica();
 
-        avaliacao.setAluno(alunoRepository.findById(request.alunoId()).orElseThrow());
-        avaliacao.setPersonal(personalRepository.findById(request.personalId()).orElseThrow());
+
+        var aluno = alunoRepository.findById(request.alunoId())
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+        var personal = personalRepository.findById(request.personalId())
+                .orElseThrow(() -> new RuntimeException("Personal não encontrado"));
+
+        avaliacao.setAluno(aluno);
+        avaliacao.setPersonal(personal);
         avaliacao.setDataAvaliacao(LocalDate.now());
+
+
         avaliacao.setPeso(request.peso());
         avaliacao.setAltura(request.altura());
-        avaliacao.setPercentualGordura(request.percentualGordura());
         avaliacao.setMassaMuscular(request.massaMuscular());
         avaliacao.setCintura(request.cintura());
         avaliacao.setTorax(request.torax());
         avaliacao.setQuadril(request.quadril());
-        avaliacao.setBracoEsquerdo(request.bracoEsquerdo());
-        avaliacao.setCoxaEsquerda(request.coxaEsquerda());
         avaliacao.setBracoDireito(request.bracoDireito());
+        avaliacao.setBracoEsquerdo(request.bracoEsquerdo());
         avaliacao.setCoxaDireita(request.coxaDireita());
+        avaliacao.setCoxaEsquerda(request.coxaEsquerda());
+
+
+        avaliacao.setDobraSubescapular(request.dobraSubescapular());
+        avaliacao.setDobraTriceps(request.dobraTriceps());
+        avaliacao.setDobraPeitoral(request.dobraPeitoral());
+        avaliacao.setDobraAxilarMedia(request.dobraAxilarMedia());
+        avaliacao.setDobraSupraIliaca(request.dobraSupraIliaca());
+        avaliacao.setDobraAbdominal(request.dobraAbdominal());
+        avaliacao.setDobraCoxa(request.dobraCoxa());
+
+
+        if (aluno.getUser().getDataNascimento() == null) {
+            throw new RuntimeException("Data de nascimento do aluno é obrigatória para o cálculo.");
+        }
+
+        int idade = java.time.Period.between(aluno.getUser().getDataNascimento(), LocalDate.now()).getYears();
+
+        double soma = request.dobraSubescapular() + request.dobraTriceps() + request.dobraPeitoral() +
+                request.dobraAxilarMedia() + request.dobraSupraIliaca() +
+                request.dobraAbdominal() + request.dobraCoxa();
+
+
+        double dc = 1.112 - (0.00043499 * soma) + (0.00000055 * Math.pow(soma, 2)) - (0.00028826 * idade);
+        double percentualGordura = ((4.95 / dc) - 4.50) * 100;
+
+        avaliacao.setPercentualGordura(Math.round(percentualGordura * 100.0) / 100.0);
+
 
         AvaliacaoFisica salva = avaliacaoFisicaRepository.save(avaliacao);
         return converterParaResponse(salva);
@@ -88,15 +122,24 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
         return evolucao;
     }
     private AvaliacaoFisicaResponse converterParaResponse(AvaliacaoFisica ent) {
-        Double imc = ent.getPeso() / (ent.getAltura() * ent.getAltura());
+
+        Double peso = (ent.getPeso() != null) ? ent.getPeso() : 0.0;
+        Double altura = (ent.getAltura() != null && ent.getAltura() > 0) ? ent.getAltura() : 1.0;
+        Double percentual = (ent.getPercentualGordura() != null) ? ent.getPercentualGordura() : 0.0;
+
+
+        Double imc = peso / (altura * altura);
+        Double massaGordaKg = peso * (percentual / 100);
+        Double massaMagraKg = peso - massaGordaKg;
+
         return new AvaliacaoFisicaResponse(
                 ent.getId(),
                 ent.getDataAvaliacao(),
                 ent.getAluno().getUser().getName(),
                 ent.getPersonal().getUser().getName(),
-                ent.getPeso(),
+                peso,
                 ent.getAltura(),
-                imc,
+                Math.round(imc * 100.0) / 100.0,
                 ent.getPercentualGordura(),
                 ent.getMassaMuscular(),
                 ent.getTorax(),
@@ -105,6 +148,9 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
                 ent.getBracoEsquerdo(),
                 ent.getBracoDireito(),
                 ent.getCoxaEsquerda(),
-                ent.getCoxaDireita());
+                ent.getCoxaDireita(),
+                Math.round(massaGordaKg * 100.0) / 100.0,
+                Math.round(massaMagraKg * 100.0) / 100.0
+        );
     }
 }

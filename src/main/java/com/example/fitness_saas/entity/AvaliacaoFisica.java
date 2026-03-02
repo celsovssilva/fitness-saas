@@ -1,14 +1,13 @@
 package com.example.fitness_saas.entity;
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AvaliacaoFisica {
@@ -21,10 +20,10 @@ public class AvaliacaoFisica {
 
     private Double peso;
     private Double altura;
-    private Double percentualGordura;
+    private Double percentualGordura; // Resultado do cálculo de Pollock
     private Double massaMuscular;
 
-
+    // Circunferências
     private Double torax;
     private Double cintura;
     private Double quadril;
@@ -32,6 +31,15 @@ public class AvaliacaoFisica {
     private Double bracoEsquerdo;
     private Double coxaDireita;
     private Double coxaEsquerda;
+
+
+    private Double dobraSubescapular;
+    private Double dobraTriceps;
+    private Double dobraPeitoral;
+    private Double dobraAxilarMedia;
+    private Double dobraSupraIliaca;
+    private Double dobraAbdominal;
+    private Double dobraCoxa;
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")

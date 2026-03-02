@@ -4,6 +4,8 @@ import com.example.fitness_saas.Enum.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "tb_users")
 @Data
@@ -17,6 +19,7 @@ public class User {
     private Long id;
 
     private String name;
+    private LocalDate dataNascimento;
 
     @Column(unique = true)
     private String email;
