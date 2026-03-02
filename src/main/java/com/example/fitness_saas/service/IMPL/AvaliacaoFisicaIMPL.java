@@ -71,9 +71,15 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
                 request.dobraAbdominal() + request.dobraCoxa();
 
 
-        double dc = 1.112 - (0.00043499 * soma) + (0.00000055 * Math.pow(soma, 2)) - (0.00028826 * idade);
-        double percentualGordura = ((4.95 / dc) - 4.50) * 100;
+        double dc ;
+        String sexo = aluno.getUser().getSexo();
+        if (sexo.equals("M")) {
+            dc = 1.112 -(0.00043499 * soma) + (0.00000055 * Math.pow(soma, 2)) -(0.00028826 * idade) ;
+        }else{
+            dc = 1.097 - (0.00046971 * soma) + (0.00000056 * Math.pow(soma, 2)) - (0.00012828 * idade);
+        }
 
+        double percentualGordura = ((4.95 /dc )- 4.50) * 100;
         avaliacao.setPercentualGordura(Math.round(percentualGordura * 100.0) / 100.0);
 
 

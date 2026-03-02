@@ -20,6 +20,7 @@ public class User {
 
     private String name;
     private LocalDate dataNascimento;
+    private String sexo;
 
     @Column(unique = true)
     private String email;

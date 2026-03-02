@@ -4,4 +4,4 @@ import com.example.fitness_saas.Enum.UserRole;
 
 import java.time.LocalDate;
 
-public record UserDTO(String name, String email, String password, LocalDate dataNascimento , UserRole role){}
+public record UserDTO(String name, String email, String password, LocalDate dataNascimento , String sexo, UserRole role){}
