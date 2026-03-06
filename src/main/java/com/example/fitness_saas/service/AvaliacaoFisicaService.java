@@ -19,6 +19,7 @@ public interface AvaliacaoFisicaService {
     AvaliacaoFisicaResponse buscarUltimaAvaliacao(Long alunoId);
     Map<String, Double> compararEvolucao(Long alunoId);
     void deletar(Long id);
+    AvaliacaoFisicaResponse buscarAvaliacaoPorId(Long id);
 
 
 

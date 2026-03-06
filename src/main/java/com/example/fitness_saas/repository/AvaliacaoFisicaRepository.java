@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AvaliacaoFisicaRepository  extends JpaRepository<AvaliacaoFisica, Long> {
@@ -12,4 +13,7 @@ public interface AvaliacaoFisicaRepository  extends JpaRepository<AvaliacaoFisic
 
 
     List<AvaliacaoFisica> findTop2ByAlunoIdOrderByDataAvaliacaoDesc(Long alunoId);
+
+
+
 }

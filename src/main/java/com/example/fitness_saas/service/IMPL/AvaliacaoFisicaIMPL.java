@@ -159,4 +159,10 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
                 Math.round(massaMagraKg * 100.0) / 100.0
         );
     }
+
+    @Override
+    public AvaliacaoFisicaResponse buscarAvaliacaoPorId(Long id) {
+        AvaliacaoFisica a = avaliacaoFisicaRepository.findById(id).orElse(null);
+        return new AvaliacaoFisicaResponse(a);
+    }
 }

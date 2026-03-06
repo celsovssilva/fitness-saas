@@ -2,12 +2,18 @@ package com.example.fitness_saas.controller;
 
 import com.example.fitness_saas.dto.AvaliacaoFisicaDTO;
 import com.example.fitness_saas.response.AvaliacaoFisicaResponse;
+import com.example.fitness_saas.service.AlunoService;
 import com.example.fitness_saas.service.AvaliacaoFisicaService;
+import com.example.fitness_saas.service.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +22,10 @@ import java.util.Map;
 public class AvaliacaoFisicaController {
     @Autowired
     private AvaliacaoFisicaService avaliacaoFisicaService;
+    @Autowired
+    private PdfService pdfService;
+    @Autowired
+    private AlunoService alunoService;
     @PostMapping("/cadastrar")
     public ResponseEntity<AvaliacaoFisicaResponse> cadastrar(@RequestBody AvaliacaoFisicaDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(avaliacaoFisicaService.cadastrar(request));
@@ -43,5 +53,16 @@ public class AvaliacaoFisicaController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         avaliacaoFisicaService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<InputStreamResource> pdfAvaliacao(@PathVariable Long id) {
+        AvaliacaoFisicaResponse a = avaliacaoFisicaService.buscarAvaliacaoPorId(id);
+        ByteArrayInputStream bis = pdfService.gerarPdfAvaliacao(a);
+        String nomeArquivo = "Avaliacao_" + a.nomeAluno().replace(" ", "_") + ".pdf";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + nomeArquivo);
+
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 }
