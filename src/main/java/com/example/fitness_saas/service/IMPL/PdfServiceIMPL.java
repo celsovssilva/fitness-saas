@@ -57,7 +57,7 @@ public class PdfServiceIMPL implements PdfService {
 
 
             table3.addCell(criarCampoFormulario("IMC", dados.imc().toString(), fontLabel, fontDados, 1));
-            table3.addCell(criarCampoFormulario("Altura" + dados.altura(),"---", fontLabel, fontDados, 1));
+            table3.addCell(criarCampoFormulario("Altura" +  dados.altura(),"---", fontLabel, fontDados, 1));
             table3.addCell(criarCampoFormulario("Peso: " + dados.peso() , " kg", fontLabel, fontDados, 1));
             table3.addCell(criarCampoFormulario("% Gordura: " + dados.percentualGordura() ,"%", fontLabel, fontDados, 1));
             table3.addCell(criarCampoFormulario("Braço Direito:" + dados.bracoDireito(),"cm", fontLabel,fontDados,1));
