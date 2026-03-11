@@ -66,6 +66,7 @@ public class PdfServiceIMPL implements PdfService {
             table3.addCell(criarCampoFormulario("Coxa Direita:" + dados.coxaDireita(), "cm", fontLabel,fontDados,1));
             table3.addCell(criarCampoFormulario("Coxa Esquerda:" + dados.coxaEsquerda(), "cm", fontLabel,fontDados,1));
             table3.addCell(criarCampoFormulario("Torax:" +  dados.torax(),"cm", fontLabel,fontDados,1));
+            table3.addCell(criarCampoFormulario("Massa Muscular:" + dados.massaMagraKg(),"kg", fontLabel,fontDados,1));
 
             document.add(table3);
 

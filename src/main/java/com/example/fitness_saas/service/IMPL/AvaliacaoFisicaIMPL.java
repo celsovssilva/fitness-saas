@@ -1,17 +1,24 @@
 package com.example.fitness_saas.service.IMPL;
 
 import com.example.fitness_saas.dto.AvaliacaoFisicaDTO;
+import com.example.fitness_saas.entity.Aluno;
 import com.example.fitness_saas.entity.AvaliacaoFisica;
 import com.example.fitness_saas.repository.AlunoRepository;
 import com.example.fitness_saas.repository.AvaliacaoFisicaRepository;
 import com.example.fitness_saas.repository.PersonalRepository;
 import com.example.fitness_saas.response.AvaliacaoFisicaResponse;
+import com.example.fitness_saas.response.EvolucaoResponse;
 import com.example.fitness_saas.service.AvaliacaoFisicaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,4 +172,54 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
         AvaliacaoFisica a = avaliacaoFisicaRepository.findById(id).orElse(null);
         return new AvaliacaoFisicaResponse(a);
     }
+
+    @Override
+    public EvolucaoResponse compararSistemaContraExcel(Long alunoId, MultipartFile file) {
+        Aluno aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("aluno não econtrado");
+        AvaliacaoFisica avAntiga= lerExcel(file);
+        avAntiga.setAluno(aluno);
+        avAntiga.setDataAvaliacao(LocalDate.now().minusDays(1));
+        avaliacaoFisicaRepository.save(avAntiga);
+
+        List<AvaliacaoFisica> avaliacoes = avaliacaoFisicaRepository.findTop2ByAlunoIdOrderByDataAvaliacaoDesc(alunoId);
+        if(avaliacoes.size() < 2 ) throw new RuntimeException("Dados insuficientes");
+
+        AvaliacaoFisicaResponse atualDto = new AvaliacaoFisicaResponse(avaliacoes.get(0));
+        AvaliacaoFisicaResponse antigaDto = new AvaliacaoFisicaResponse(avaliacoes.get(1));
+
+        Map<String,Double> difs = new HashMap<>();
+        difs.put("peso", atualDto.peso() - antigaDto.peso());
+        difs.put("altura", atualDto.altura() - antigaDto.altura());
+        difs.put("braço Direito", atualDto.bracoDireito() - antigaDto.bracoDireito());
+        difs.put("braço Esquerdo", atualDto.bracoEsquerdo() - antigaDto.bracoEsquerdo());
+        difs.put("cintura", atualDto.cintura() - antigaDto.cintura());
+        difs.put("torax", atualDto.torax() - antigaDto.torax());
+        difs.put("Massa gorda", atualDto.massaGordaKg() - antigaDto.massaGordaKg());
+        difs.put("Massa Magrar", atualDto.massaGordaKg() - antigaDto.massaGordaKg());
+        difs.put("Coxa Direita", atualDto.coxaDireita() - antigaDto.coxaDireita());
+        difs.put("Coxa Esquerda",atualDto.coxaEsquerda() - antigaDto.coxaEsquerda());
+        difs.put("IMC", atualDto.imc() - antigaDto.imc());
+
+
+        return new EvolucaoResponse(aluno.getUser().getName(),atualDto,antigaDto,difs);
+    }
+
+    private AvaliacaoFisicaResponse lerExcel(MultipartFile file) throws IOException {
+        try(InputStream is = file.getInputStream(); Workbook workbook = new XSSFWorkbook(is)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Row row = sheet.getRow(1);
+
+            if(row == null) throw  new RuntimeException("linha 2 está vazia");
+            AvaliacaoFisica av = new AvaliacaoFisica();
+            av.setPeso(getNumericSafe(row, 0));
+            av.setPercentualGordura(getNumericSafe(row, 1));
+            av.setMassaMuscular(getNumericSafe(row, 2));
+            av.setCintura(getNumericSafe(row, 3));
+            av.setTorax(getNumericSafe(row, 4));
+            av.setImc(getNumericSafe(row, 9));
+
+        }
+    }
 }
+
+

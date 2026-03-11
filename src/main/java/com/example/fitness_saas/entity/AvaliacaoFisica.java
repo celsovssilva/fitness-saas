@@ -16,7 +16,7 @@ public class AvaliacaoFisica {
     private Long id;
 
     private LocalDate dataAvaliacao;
-
+    private Double imc;
 
     private Double peso;
     private Double altura;
