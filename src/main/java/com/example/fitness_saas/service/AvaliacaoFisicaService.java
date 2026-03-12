@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public interface AvaliacaoFisicaService {
     Map<String, Double> compararEvolucao(Long alunoId);
     void deletar(Long id);
     AvaliacaoFisicaResponse buscarAvaliacaoPorId(Long id);
-    EvolucaoResponse compararSistemaContraExcel(Long alunoId, MultipartFile file);
+    EvolucaoResponse compararSistemaContraExcel(Long alunoId, MultipartFile file) throws IOException;
 
 
 

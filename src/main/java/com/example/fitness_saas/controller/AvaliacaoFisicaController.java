@@ -2,6 +2,7 @@ package com.example.fitness_saas.controller;
 
 import com.example.fitness_saas.dto.AvaliacaoFisicaDTO;
 import com.example.fitness_saas.response.AvaliacaoFisicaResponse;
+import com.example.fitness_saas.response.EvolucaoResponse;
 import com.example.fitness_saas.service.AlunoService;
 import com.example.fitness_saas.service.AvaliacaoFisicaService;
 import com.example.fitness_saas.service.PdfService;
@@ -12,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -65,4 +68,11 @@ public class AvaliacaoFisicaController {
 
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
+    @PostMapping(value = "/importarExcel/{alunoId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EvolucaoResponse> compararEvolucaoExcel(@PathVariable Long alunoId,@RequestParam("file") MultipartFile file ) throws IOException {
+            EvolucaoResponse    response = avaliacaoFisicaService.compararSistemaContraExcel(alunoId,file);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }
+

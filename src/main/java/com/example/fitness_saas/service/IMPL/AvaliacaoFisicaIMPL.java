@@ -9,7 +9,6 @@ import com.example.fitness_saas.repository.PersonalRepository;
 import com.example.fitness_saas.response.AvaliacaoFisicaResponse;
 import com.example.fitness_saas.response.EvolucaoResponse;
 import com.example.fitness_saas.service.AvaliacaoFisicaService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,8 +172,8 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
     }
 
     @Override
-    public EvolucaoResponse compararSistemaContraExcel(Long alunoId, MultipartFile file) {
-        Aluno aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("aluno não econtrado");
+    public EvolucaoResponse compararSistemaContraExcel(Long alunoId, MultipartFile file) throws IOException {
+        Aluno aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("aluno não econtrado"));
         AvaliacaoFisica avAntiga= lerExcel(file);
         avAntiga.setAluno(aluno);
         avAntiga.setDataAvaliacao(LocalDate.now().minusDays(1));
@@ -204,7 +202,7 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
         return new EvolucaoResponse(aluno.getUser().getName(),atualDto,antigaDto,difs);
     }
 
-    private AvaliacaoFisicaResponse lerExcel(MultipartFile file) throws IOException {
+    private AvaliacaoFisica lerExcel(MultipartFile file) throws IOException {
         try(InputStream is = file.getInputStream(); Workbook workbook = new XSSFWorkbook(is)) {
             Sheet sheet = workbook.getSheetAt(0);
             Row row = sheet.getRow(1);
@@ -216,9 +214,22 @@ public  class AvaliacaoFisicaIMPL implements AvaliacaoFisicaService {
             av.setMassaMuscular(getNumericSafe(row, 2));
             av.setCintura(getNumericSafe(row, 3));
             av.setTorax(getNumericSafe(row, 4));
-            av.setImc(getNumericSafe(row, 9));
+            av.setBracoEsquerdo(getNumericSafe(row,5));
+            av.setBracoDireito(getNumericSafe(row, 6));
+            av.setAltura(getNumericSafe(row, 7));
+            av.setCoxaDireita(getNumericSafe(row, 8));
+            av.setCoxaEsquerda(getNumericSafe(row, 9));
+            av.setImc(getNumericSafe(row, 10));
 
+            return  av;
+        }catch (Exception e ){
+            throw new RuntimeException("Falha ao processar Excel" + e.getMessage());
         }
+    }
+    private Double getNumericSafe(Row row, int index) {
+        Cell cell = row.getCell(index);
+        if (cell == null || cell.getCellType() == CellType.BLANK) return 0.0;
+        return cell.getNumericCellValue();
     }
 }
 
