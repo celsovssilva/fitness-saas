@@ -1,7 +1,7 @@
 package com.example.fitness_saas.dto;
 
-public record AuthDTO(
-        String email,
+public record LoginDTO(
+        String userName,
         String senha
 ) {
 }
