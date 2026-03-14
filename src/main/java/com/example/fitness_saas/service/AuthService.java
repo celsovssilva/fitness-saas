@@ -1,7 +1,8 @@
 package com.example.fitness_saas.service;
 
 import com.example.fitness_saas.dto.LoginDTO;
+import com.example.fitness_saas.response.LoginResponse;
 
 public interface AuthService {
-    LoginDTO login(LoginDTO loginDTO);
+    LoginResponse login(LoginDTO loginDTO);
 }
