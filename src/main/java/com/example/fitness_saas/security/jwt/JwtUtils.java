@@ -12,7 +12,6 @@ import io.jsonwebtoken.io.Decoders;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.security.KeyStoreSpi;
 import java.util.Date;
 
 @Component
@@ -22,18 +21,20 @@ public class JwtUtils {
 
     @Value("${api.security.token.expiration-hours}")
     private int jwtExpiration;
-
+//gera o token e define quando ele expira
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder().setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpiration))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS256).compact();
     }
+    // assina o token
     public Key getSigninKey(){
        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwt));
        return key;
     }
-    public boolean validateToken(String token){
+    //valida o token
+    public String validateToken(String token){
         try {
             Jwts.parserBuilder().setSigningKey(getSigninKey()).build().parseClaimsJws(token);
 
@@ -42,6 +43,6 @@ public class JwtUtils {
         } catch (ExpiredJwtException e) {
             System.out.println("Token expirado" + e.getMessage());
         }
-        return false;
+        return token;
     }
 }
