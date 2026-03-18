@@ -6,6 +6,7 @@ import com.example.fitness_saas.repository.PersonalRepository;
 import com.example.fitness_saas.repository.UserRepository;
 import com.example.fitness_saas.service.PersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,15 @@ public class PersonalServiceIMPL  implements PersonalService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public Personal cadastrarPersonal(Personal personal) {
+        String senha = personal.getUser().getPassword();
+        String hash = passwordEncoder.encode(senha);
+        personal.getUser().setPassword(hash);
+
         userRepository.save(personal.getUser());
         return personalRepository.save(personal);
     }

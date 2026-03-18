@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 //verifica quem tem o token e se ele é valido
+@Component
 public class SecurityFilter  extends OncePerRequestFilter {
     @Autowired
     JwtUtils jwtUtils;
@@ -26,10 +28,19 @@ public class SecurityFilter  extends OncePerRequestFilter {
         var token = this.recoverToken(request);// tenta achar o token na url
         if (token != null) {
             String email = jwtUtils.validateToken(token);// valida o token junto ao email
-            if(!email.isEmpty()){ // se o email estiver vazio, faz a busca no bancp
+            if(!email.isEmpty()){ // se o email estiver vazio, faz a busca no banco
                 UserDetails user = userRepository.findByEmail(email);
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());//permite a entrada
-                SecurityContextHolder.getContext().setAuthentication(authentication);//usuario authenticado pode acessar as urls permitidas
+
+                if(user!=null){
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());//permite a entrada
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);//usuario authenticado pode acessar as urls permitidas
+                } else {
+                    System.out.println("Email not found" );
+                }
+
+
+
             }
 
         }

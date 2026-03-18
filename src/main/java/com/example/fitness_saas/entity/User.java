@@ -45,10 +45,10 @@ public class User  implements UserDetails {
                     new SimpleGrantedAuthority("ROLE_ALUNO"));
         } else if (this.role == UserRole.PERSONAL) {
             return List.of(new SimpleGrantedAuthority("ROLE_PERSONAL"),
-                    new SimpleGrantedAuthority("Role_ALUNO"));
+                    new SimpleGrantedAuthority("ROLE_ALUNO"));
 
         } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_ALUNO"));
+            return List.of(new SimpleGrantedAuthority("ALUNO"));
 
         }
     }

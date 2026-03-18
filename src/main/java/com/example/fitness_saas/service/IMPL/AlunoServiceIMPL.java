@@ -8,6 +8,7 @@ import com.example.fitness_saas.repository.PersonalRepository;
 import com.example.fitness_saas.repository.UserRepository;
 import com.example.fitness_saas.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class AlunoServiceIMPL implements AlunoService{
     private UserRepository userRepository;
     @Autowired
     private PersonalRepository personalRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<Aluno> buscarAlunos() {
@@ -38,6 +41,10 @@ public class AlunoServiceIMPL implements AlunoService{
 
 
             aluno.setPersonal(personalCompleto);
+
+            String senha = aluno.getUser().getPassword();
+            String hash = passwordEncoder.encode(senha);
+            aluno.getUser().setPassword(hash);
         }
         return alunoRepository.save(aluno);
     }

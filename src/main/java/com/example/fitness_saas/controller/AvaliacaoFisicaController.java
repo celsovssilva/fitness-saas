@@ -52,7 +52,7 @@ public class AvaliacaoFisicaController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         avaliacaoFisicaService.deletar(id);
         return ResponseEntity.noContent().build();

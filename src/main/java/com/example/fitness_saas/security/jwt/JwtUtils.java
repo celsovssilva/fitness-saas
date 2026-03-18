@@ -15,7 +15,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtUtils {
+public class    JwtUtils {
     @Value("${api.security.token.secret}")
     private String jwt;
 
@@ -36,13 +36,14 @@ public class JwtUtils {
     //valida o token
     public String validateToken(String token){
         try {
-            Jwts.parserBuilder().setSigningKey(getSigninKey()).build().parseClaimsJws(token);
+            return Jwts.parserBuilder().setSigningKey(getSigninKey()).build().parseClaimsJws(token)
+                    .getBody().getSubject();
 
         } catch (MalformedJwtException e) {
             System.out.println("Token inválido" + e.getMessage());
         } catch (ExpiredJwtException e) {
             System.out.println("Token expirado" + e.getMessage());
         }
-        return token;
+        return "";
     }
 }
