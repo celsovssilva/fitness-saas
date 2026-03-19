@@ -1,11 +1,13 @@
 package com.example.fitness_saas.service.IMPL;
 
+import com.example.fitness_saas.Config.RabbiMQConfig;
 import com.example.fitness_saas.entity.PassWordReset;
 import com.example.fitness_saas.entity.User;
 import com.example.fitness_saas.repository.PassWordTokenRepository;
 import com.example.fitness_saas.repository.UserRepository;
 import com.example.fitness_saas.service.EmailService;
 import com.example.fitness_saas.service.PassWordResetService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class PassWordResetServiceIMPL implements PassWordResetService {
     EmailService emailService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
 
     @Override
     public String createPassWord(String email) {
@@ -35,13 +40,8 @@ public class PassWordResetServiceIMPL implements PassWordResetService {
         passWordTokenRepository.save(passWordReset);
 
         String link = "http://localhost:8080/api/auth/reset-password?token=" + token;
-        String corpo = "Olá " + user.getName() + ",\n\n" +
-                "Você solicitou a redefinição de sua senha. " +
-                "Clique no link abaixo para criar uma nova senha:\n" +
-                link + "\n\n" +
-                "Este link expira em 15 minutos.";
 
-        emailService.enviarEmail(user.getEmail(), "Recuperação De Senha", corpo);
+        sendToQueue(user.getEmail(), link);
         return "email enviado com sucesso!" + email;
     }
 
@@ -62,4 +62,12 @@ public class PassWordResetServiceIMPL implements PassWordResetService {
         passWordTokenRepository.delete(passWordReset);
         return "Senha alterada com sucesso!";
     }
+
+    //
+    private void sendToQueue(String email,String link){
+        String message = "enviar email para " + email + "| link: " + link;
+
+        rabbitTemplate.convertAndSend(RabbiMQConfig.QUEUE_NAME, message);
+    }
+
 }

@@ -33,6 +33,9 @@ public class AlunoServiceIMPL implements AlunoService{
 
     @Override
     public Aluno cadastrar(Aluno aluno) {
+        String senha = aluno.getUser().getPassword();
+        String hash = passwordEncoder.encode(senha);
+        aluno.getUser().setPassword(hash);
 
         if (aluno.getPersonal() != null && aluno.getPersonal().getId() != null) {
 
@@ -42,9 +45,7 @@ public class AlunoServiceIMPL implements AlunoService{
 
             aluno.setPersonal(personalCompleto);
 
-            String senha = aluno.getUser().getPassword();
-            String hash = passwordEncoder.encode(senha);
-            aluno.getUser().setPassword(hash);
+
         }
         return alunoRepository.save(aluno);
     }

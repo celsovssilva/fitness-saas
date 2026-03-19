@@ -1,7 +1,6 @@
 package com.example.fitness_saas.security.jwt;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.security.Keys;  // Import necessário para Keys
 import io.jsonwebtoken.io.Decoders;
-
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;

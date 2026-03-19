@@ -3,7 +3,6 @@ package com.example.fitness_saas.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
