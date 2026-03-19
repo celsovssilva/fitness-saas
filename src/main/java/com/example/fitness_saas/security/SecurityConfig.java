@@ -27,6 +27,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/forgot-password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/aluno/cadastrar").hasAnyRole("ADMIN","PERSONAL")
                         .requestMatchers(HttpMethod.GET, "/api/aluno/buscar/{id}").hasAnyRole("ADMIN","PERSONAL")
                         .requestMatchers(HttpMethod.PUT, "/api/aluno/atualizar").hasAnyRole("ADMIN","PERSONAL")

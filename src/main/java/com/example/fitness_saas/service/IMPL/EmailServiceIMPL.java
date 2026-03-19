@@ -13,19 +13,15 @@ public class EmailServiceIMPL implements EmailService {
    private JavaMailSender mailSender;
 
     @Override
-    public void enviarEmail(String destino, String token) {
+    public void enviarEmail(String destino, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("celsosilvavinicius151@gmail.com");
+        message.setTo(destino);
+        message.setSubject(subject);
+        message.setText(body);
 
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("celsosilvavinicius151@gmail.com");
-            message.setTo(destino);
-            message.setSubject("Recuperação de senha");
-            message.setText("Use esse token pra redefinir senha:" + token);
-            mailSender.send(message);
+        mailSender.send(message);
 
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Falha ao enviar email",e);
-        }
 
     }
 }
