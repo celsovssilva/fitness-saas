@@ -11,7 +11,7 @@ public class EmailConsumer {
 
     @Autowired
     private EmailService emailService;
-    @RabbitListener(queues = RabbiMQConfig.QUEUE_NAME)
+    @RabbitListener(queues = RabbiMQConfig.QUEUE_EMAIL)
     public void consume(String message) {
         System.out.println("LOG [CONSUMER]: Recebi um pedido da fila: " + message);
 

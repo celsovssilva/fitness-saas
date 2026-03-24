@@ -67,7 +67,7 @@ public class PassWordResetServiceIMPL implements PassWordResetService {
     private void sendToQueue(String email,String link){
         String message = "enviar email para " + email + "| link: " + link;
 
-        rabbitTemplate.convertAndSend(RabbiMQConfig.QUEUE_NAME, message);
+        rabbitTemplate.convertAndSend(RabbiMQConfig.QUEUE_EMAIL, message);
     }
 
 }

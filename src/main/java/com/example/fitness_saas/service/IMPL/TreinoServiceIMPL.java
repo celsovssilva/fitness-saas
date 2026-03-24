@@ -1,10 +1,13 @@
 package com.example.fitness_saas.service.IMPL;
 
+import com.example.fitness_saas.Config.RabbiMQConfig;
 import com.example.fitness_saas.dto.TreinoDTO;
 import com.example.fitness_saas.dto.ItemTreinoDTO;
+import com.example.fitness_saas.dto.TreinoEmailDTO;
 import com.example.fitness_saas.entity.*;
 import com.example.fitness_saas.repository.*;
 import com.example.fitness_saas.service.TreinoService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,8 @@ public class TreinoServiceIMPL implements TreinoService {
     PersonalRepository personalRepository;
     @Autowired
     ExercicioRepository exercicioRepository;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Override
     public List<Treino> buscarTreinoPorAluno(Long idAluno) {
@@ -87,7 +92,17 @@ public class TreinoServiceIMPL implements TreinoService {
 
             treino.setItens(itens);
             treino = treinoRepository.save(treino);
+
+
         }
+        TreinoEmailDTO notify = new TreinoEmailDTO(
+                alunoDB.getUser().getEmail(),
+                alunoDB.getUser().getName(),
+                personalDB.getUser().getEmail(),
+                treino.getNomeTreino()
+        );
+        rabbitTemplate.convertAndSend(RabbiMQConfig.QUEUE_TREINO, notify);
+        System.out.println("Treino enviado com sucesso!");
 
         return treino;
     }
