@@ -11,6 +11,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class PassWordResetServiceIMPL implements PassWordResetService {
     }
 
     @Override
+    @Transactional
     public String validatePassWord(String token, String newPassword) {
         PassWordReset passWordReset = passWordTokenRepository.findByToken(token);
         if (passWordReset == null) {
@@ -63,7 +65,7 @@ public class PassWordResetServiceIMPL implements PassWordResetService {
         return "Senha alterada com sucesso!";
     }
 
-    //
+
     private void sendToQueue(String email,String link){
         String message = "enviar email para " + email + "| link: " + link;
 
