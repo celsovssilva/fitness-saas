@@ -5,7 +5,9 @@ import com.example.fitness_saas.service.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.annotation.RabbitListeners;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TreinoConsumer {
     @Autowired
     EmailService emailService;
@@ -17,7 +19,7 @@ public class TreinoConsumer {
                 "O treino de hoje é: " + dto.tipoTreino() + ".\n\n" +
                 "Bora treinar? Acesse o app e confira os exercícios!";
         emailService.enviarEmail(dto.nomeAluno(), dto.tipoTreino(), corpo);
-        System.out.println("Treino enviado com sucesso!");
+        System.out.println("Treino enviado  com sucesso!");
 
     }
 }
