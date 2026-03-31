@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Dados Sensíveis (Senhas e Tokens)
+src/main/resources/application.properties

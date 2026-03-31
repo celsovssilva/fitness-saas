@@ -98,7 +98,7 @@ public class TreinoServiceIMPL implements TreinoService {
         TreinoEmailDTO notify = new TreinoEmailDTO(
                 alunoDB.getUser().getEmail(),
                 alunoDB.getUser().getName(),
-                personalDB.getUser().getEmail(),
+                personalDB.getUser().getName(),
                 treino.getNomeTreino()
         );
         rabbitTemplate.convertAndSend(RabbiMQConfig.QUEUE_TREINO, notify);
