@@ -4,8 +4,7 @@ Uma plataforma completa de Software as a Service (SaaS) voltada para a gestão d
 
 🚀 Sobre o Projeto
 
-Este projeto foi desenvolvido para oferecer uma experiência fluida e escalável, permitindo que usuários gerenciem sua rotina de saúde de forma centralizada. A aplicação conta com autenticação segura, gestão de banco de dados robusta e uma interface responsiva.
-
+Este projeto foi desenvolvido para aprender mais sobre o framework e dominar melhor suas ferramentas, com a implementação do RabbitMQ e Docker, para avançar ainda mais nos meus estudos para ser um dev Backend Junior,nesse projeto foi aplicado o CRUD, mas também a implementação de download de pdf de avaliação e treino, mensageria ao cadastrar um novo treino e envio de email para redefinir senha, rodando também no Docker, para treinar e entender melhor como funciona o ambiente virtual.
 🛠️ Tecnologias Utilizadas
 
 O ecossistema do projeto é composto pelas seguintes tecnologias:
@@ -16,20 +15,15 @@ Framework: Spring boot
 
 Linguagem: Java
 
-Estilização: 
+Ambiente Virtual: Docker
 
-Banco de Dados: PostgreSQL (Rodando no Docker)
+Banco de Dados: PostgreSQL 
 
 Autenticação: JWT, Spring Security
 
 Mensageria:RabbitMQ
 
-Deploy: 
 
-✨ Funcionalidades
 
-✅ Dashboard do Usuário: Visualização de Avaliação e treinos recentes, podendo fazer download.
-
-✅ Criação de Treinos: Interface intuitiva para montar rotinas personalizadas, personal monta seu treino.
 
 ✅ Histórico de Atividades: Registro detalhado de evolução e cargas.
