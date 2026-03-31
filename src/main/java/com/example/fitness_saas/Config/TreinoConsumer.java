@@ -14,12 +14,19 @@ public class TreinoConsumer {
 
     @RabbitListener(queues = RabbiMQConfig.QUEUE_TREINO)
     public void consumirNotificacaoTreino(TreinoEmailDTO dto){
-        String subject = "\uD83D\uDE80 Novo Treino Disponível!";
-        String corpo = "Olá " + dto.nomeAluno() + " acabou de atualizar sua ficha.\n" +
+
+
+        String subject = "🚀 Novo Treino Disponível!";
+
+
+        String corpo = "Olá, " + dto.nomeAluno() + "!\n\n" +
+                "Seu personal " + dto.nomePersonal() + " acabou de atualizar sua ficha.\n" +
                 "O treino de hoje é: " + dto.tipoTreino() + ".\n\n" +
                 "Bora treinar? Acesse o app e confira os exercícios!";
-        emailService.enviarEmail(dto.nomeAluno(), dto.tipoTreino(), corpo);
-        System.out.println("Treino enviado  com sucesso!");
 
+
+        emailService.enviarEmail(dto.emailAluno(), subject, corpo);
+
+        System.out.println("E-mail de treino enviado com sucesso para: " + dto.emailAluno());
     }
 }

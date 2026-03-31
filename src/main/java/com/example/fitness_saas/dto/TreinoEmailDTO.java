@@ -7,4 +7,6 @@ public record TreinoEmailDTO(
         String nomeAluno,
         String nomePersonal,
         String tipoTreino
-)implements Serializable {}
+) {
+
+}

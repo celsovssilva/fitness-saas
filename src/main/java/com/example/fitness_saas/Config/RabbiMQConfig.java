@@ -3,8 +3,10 @@ package com.example.fitness_saas.Config;
 import org.springframework.amqp.core.Queue;
 
 
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.support.converter.MessageConverter;
 
 
 @Configuration
@@ -20,6 +22,11 @@ public class RabbiMQConfig {
     @Bean
     public Queue treinoQueue() {
         return new Queue(QUEUE_TREINO, true);
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
 
